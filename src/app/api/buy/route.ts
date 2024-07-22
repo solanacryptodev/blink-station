@@ -64,6 +64,7 @@ export const POST = async (req: Request) => {
     }
 
     const body = await req.json();
+    console.log('body: ', body);
     const buyerPubkey = new PublicKey(body.account);
 
     const nftMint = getNftMint(nftName);
