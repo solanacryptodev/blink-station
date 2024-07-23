@@ -2,23 +2,19 @@ import 'server-only';
 
 import { Connection, PublicKey } from '@solana/web3.js';
 import { GmClientService } from '@staratlas/factory';
+import { assets } from '@/app/api/buy/const';
 
 export const PROGRAM_ID = new PublicKey('traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg');
 export const CONNECTION = new Connection(process.env.HELIUS_RPC!);
-
-export const NFT_NAME_TO_MINT: { [key: string]: string } = {
-    'pearce x4': '2iMhgB4pbdKvwJHVyitpvX5z1NBNypFonUgaSAt9dtDt',
-    'calico maxhog': 'GxpbUDxYYvxiUejHcAMzeV2rzdHf6KZZvT86ACrpFgXa',
-};
-
 export const gmClientService = new GmClientService();
 
 export function isValidNftName(nftName: string): boolean {
-    return !!NFT_NAME_TO_MINT[nftName.toLowerCase()];
+    return assets.some(asset => asset.name.toLowerCase() === nftName.toLowerCase());
 }
 
-export function getNftMint(nftName: string): PublicKey | null {
-    const mint = NFT_NAME_TO_MINT[nftName.toLowerCase()];
+export function getNftMint(assetQuery: string): PublicKey | null {
+    const asset = assets.find(asset => asset.param.toLowerCase() === assetQuery.toLowerCase())
+    const mint = asset?.mint
     return mint ? new PublicKey(mint) : null;
 }
 
