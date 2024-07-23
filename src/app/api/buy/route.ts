@@ -27,10 +27,11 @@ export const GET = async (req: Request) => {
         const nftMint = getNftMint(matchingAsset?.param!) as PublicKey;
         console.log('nftMint: ', nftMint.toString());
         const orders = await gmClientService.getOpenOrdersForAsset(CONNECTION, nftMint, PROGRAM_ID);
-        const buyOrders = orders.filter(order => order.orderType === 'sell');
-        const atlasOrders = buyOrders.filter(order => order.currencyMint === ATLAS);
+        const atlasSellOrders = orders.filter(order => order.orderType === 'sell' && order.currencyMint === ATLAS);
+        console.log('atlasSellOrders: ', atlasSellOrders);
 
-        const topOrders = atlasOrders.slice(0, 6).map(order => ({
+        // Get the top 6 orders
+        const topOrders = atlasSellOrders.slice(0, 6).map(order => ({
             label: `${order.uiPrice} ATLAS`,
             href: `${baseHref}&action=buy`
         }));

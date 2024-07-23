@@ -6,13 +6,13 @@ export const GET = async () => {
             // map all root level routes to an action
             {
                 pathPattern: "/buy",
-                apiPath: "https://api.BlinkStationX.com/actions/buy",
+                apiPath: "https://api.blinkstationx.com/buy",
             },
-            // // idempotent rule as the fallback
-            // {
-            //     pathPattern: "/api/action/**",
-            //     apiPath: "/api/action/**",
-            // },
+            // idempotent rule as the fallback
+            {
+                pathPattern: "/api/**",
+                apiPath: "/api/**",
+            },
         ],
     };
 
